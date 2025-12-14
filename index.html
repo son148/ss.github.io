@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智享财富 | 专属资产配置解决方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-pill.active { background: linear-gradient(135deg, #165DFF 0%, #4D7CFF 100%) !important; color: white !important; transform: scale(1.05); }
+        .card-hover { transition: all 0.3s ease; border: 1px solid transparent; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -15px rgba(22, 93, 255, 0.15); border-color: rgba(22, 93, 255, 0.2); }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .glass-effect { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 93, 255, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(22, 93, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 93, 255, 0); } }
+        .stagger-item { opacity: 0; transform: translateY(20px); animation: stagger 0.5s forwards; }
+        @keyframes stagger { to { opacity: 1; transform: translateY(0); } }
+        .risk-badge { transition: all 0.3s ease; }
+        .risk-badge:hover { transform: scale(1.05); }
+        .comparison-row { transition: all 0.3s ease; }
+        .comparison-row:hover { background-color: rgba(22, 93, 255, 0.05) !important; }
+        .asset-card { position: relative; overflow: hidden; }
+        .asset-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s; }
+        .asset-card:hover::before { left: 100%; }
+        .floating-badge { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .count-up { transition: all 0.5s ease; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- 顶部导航 -->
+    <header class="gradient-bg text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/20 rounded-lg p-2">
+                    <i class="fa fa-line-chart text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold">智享财富</h1>
+                    <p class="text-xs text-white/80">专属资产配置方案</p>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#overview" class="text-white/90 hover:text-white transition hover:scale-105">产品概览</a>
+                <a href="#details" class="text-white/90 hover:text-white transition hover:scale-105">产品详情</a>
+                <a href="#consult" class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-gray-100 transition hover:scale-105 shadow-lg font-medium">立即咨询</a>
+            </div>
+            <button class="md:hidden text-white text-xl">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 产品对比区 -->
+    <section id="overview" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="inline-block px-4 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium mb-4">
+                    <i class="fa fa-star mr-2"></i>专业定制方案
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">精选财富管理产品</h2>
+                <p class="text-gray-600 text-lg max-w-3xl mx-auto">根据您的资产规模与需求，智能匹配专属财富方案</p>
+            </div>
+            
+            <!-- 对比表格 -->
+            <div class="overflow-x-auto rounded-2xl shadow-xl border border-gray-200">
+                <table class="w-full min-w-[768px] bg-white">
+                    <thead class="gradient-bg text-white">
+                        <tr>
+                            <th class="py-5 px-6 text-left font-semibold border-b">产品名称</th>
+                            <th class="py-5 px-6 text-left font-semibold border-b">目标客群</th>
+                            <th class="py-5 px-6 text-left font-semibold border-b">起投金额</th>
+                            <th class="py-5 px-6 text-left font-semibold border-b">风险等级</th>
+                            <th class="py-5 px-6 text-left font-semibold border-b">预期年化</th>
+                            <th class="py-5 px-6 text-left font-semibold border-b">核心优势</th>
+                            <th class="py-5 px-6 text-left font-semibold border-b">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="comparison-row hover:bg-blue-50/50">
+                            <td class="py-5 px-6 border-b">
+                                <div class="flex items-center">
+                                    <i class="fa fa-building text-blue-600 text-xl mr-3"></i>
+                                    <div>
+                                        <div class="font-semibold">传世稳盈家族信托</div>
+                                        <div class="text-sm text-gray-500">超高净值客群专属</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <div class="flex items-center">
+                                    <i class="fa fa-crown text-purple-500 mr-2"></i>
+                                    <span>资产大于1亿</span>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6 border-b font-semibold text-blue-600">1000万元起</td>
+                            <td class="py-5 px-6 border-b">
+                                <span class="risk-badge px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium inline-flex items-center cursor-pointer hover:shadow-md">
+                                    <i class="fa fa-shield mr-1"></i> R3（中风险）
+                                </span>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <div class="text-2xl font-bold text-green-600">5.24%</div>
+                                <div class="text-xs text-gray-500">预期年化收益</div>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">家族传承</span>
+                                    <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded text-xs">资产隔离</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-600 rounded text-xs">慈善规划</span>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <button onclick="switchTab('product1')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition hover:scale-105 text-sm">
+                                    立即了解
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="comparison-row hover:bg-blue-50/50">
+                            <td class="py-5 px-6 border-b">
+                                <div class="flex items-center">
+                                    <i class="fa fa-bar-chart text-green-600 text-xl mr-3"></i>
+                                    <div>
+                                        <div class="font-semibold">稳享增利资管组合</div>
+                                        <div class="text-sm text-gray-500">高净值客群专属</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <div class="flex items-center">
+                                    <i class="fa fa-users text-green-500 mr-2"></i>
+                                    <span>资产1000万-1亿</span>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6 border-b font-semibold text-blue-600">100万元起</td>
+                            <td class="py-5 px-6 border-b">
+                                <span class="risk-badge px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium inline-flex items-center cursor-pointer hover:shadow-md">
+                                    <i class="fa fa-shield mr-1"></i> R2（中低风险）
+                                </span>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <div class="text-2xl font-bold text-green-600">3.14%</div>
+                                <div class="text-xs text-gray-500">预期年化收益</div>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">稳健收益</span>
+                                    <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded text-xs">灵活流动</span>
+                                    <span class="px-2 py-1 bg-pink-100 text-pink-600 rounded text-xs">婚变隔离</span>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6 border-b">
+                                <button onclick="switchTab('product2')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition hover:scale-105 text-sm">
+                                    立即了解
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="comparison-row hover:bg-blue-50/50">
+                            <td class="py-5 px-6">
+                                <div class="flex items-center">
+                                    <i class="fa fa-home text-orange-600 text-xl mr-3"></i>
+                                    <div>
+                                        <div class="font-semibold">安心成长财富组合</div>
+                                        <div class="text-sm text-gray-500">中产富裕客群专属</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6">
+                                <div class="flex items-center">
+                                    <i class="fa fa-user-circle text-orange-500 mr-2"></i>
+                                    <span>资产100万-1000万</span>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6 font-semibold text-blue-600">10万元起</td>
+                            <td class="py-5 px-6">
+                                <span class="risk-badge px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium inline-flex items-center cursor-pointer hover:shadow-md">
+                                    <i class="fa fa-shield mr-1"></i> R1-R2（低风险）
+                                </span>
+                            </td>
+                            <td class="py-5 px-6">
+                                <div class="text-2xl font-bold text-green-600">3.5%</div>
+                                <div class="text-xs text-gray-500">预期年化收益</div>
+                            </td>
+                            <td class="py-5 px-6">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">低门槛</span>
+                                    <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded text-xs">智能定投</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-600 rounded text-xs">养老保障</span>
+                                </div>
+                            </td>
+                            <td class="py-5 px-6">
+                                <button onclick="switchTab('product3')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition hover:scale-105 text-sm">
+                                    立即了解
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 资产规模指引 -->
+            <div class="mt-12 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
+                <h3 class="text-xl font-bold mb-6 text-center">不知道如何选择？</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-xl transition-all duration-300">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-user-circle text-orange-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">中产富裕客群</h4>
+                        <p class="text-gray-600 mb-4">资产规模：100万-1000万</p>
+                        <button onclick="switchTab('product3')" class="text-blue-600 hover:text-blue-800 font-medium">
+                            查看安心成长组合 →
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-xl transition-all duration-300">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-users text-green-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">高净值客群</h4>
+                        <p class="text-gray-600 mb-4">资产规模：1000万-1亿</p>
+                        <button onclick="switchTab('product2')" class="text-blue-600 hover:text-blue-800 font-medium">
+                            查看稳享增利组合 →
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md text-center hover:shadow-xl transition-all duration-300">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-crown text-purple-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">超高净值客群</h4>
+                        <p class="text-gray-600 mb-4">资产规模：1亿以上</p>
+                        <button onclick="switchTab('product1')" class="text-blue-600 hover:text-blue-800 font-medium">
+                            查看传世稳盈组合 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品详情区 -->
+    <section id="details" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <!-- 产品切换导航 -->
+            <div class="flex flex-wrap justify-center mb-12 gap-3">
+                <button class="nav-pill active px-8 py-4 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-300 flex items-center" data-tab="product1">
+                    <i class="fa fa-building text-lg mr-3"></i>
+                    传世稳盈（资产＞1亿）
+                </button>
+                <button class="nav-pill px-8 py-4 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-300 flex items-center" data-tab="product2">
+                    <i class="fa fa-bar-chart text-lg mr-3"></i>
+                    稳享增利（1000万-1亿）
+                </button>
+                <button class="nav-pill px-8 py-4 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-300 flex items-center" data-tab="product3">
+                    <i class="fa fa-home text-lg mr-3"></i>
+                    安心成长（100万-1000万）
+                </button>
+            </div>
+
+            <!-- 产品1：传世稳盈 -->
+            <div id="product1" class="tab-content active">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 overflow-hidden relative">
+                    <!-- 产品标签 -->
+                    <div class="absolute top-6 right-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium z-10 floating-badge">
+                        <i class="fa fa-crown mr-2"></i>资产＞1亿专属
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">传世稳盈多元资产家族信托计划</h3>
+                            <p class="text-blue-600 font-medium text-lg">超高净值客群专属 · 家族传承解决方案</p>
+                            <div class="flex items-center mt-4 space-x-4">
+                                <span class="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg"><i class="fa fa-shield text-blue-600 mr-2"></i> R3 中风险</span>
+                                <span class="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg"><i class="fa fa-calendar text-blue-600 mr-2"></i> 无固定期限</span>
+                                <span class="flex items-center text-green-600 bg-green-100 px-3 py-1.5 rounded-lg"><i class="fa fa-percent mr-2"></i> 预期年化 5.24%</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer text-center pulse-animation">
+                                <div class="text-2xl font-bold">1000万元起</div>
+                                <div class="text-sm opacity-90">起投金额</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 收益计算器 -->
+                    <div class="mb-10 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200">
+                        <h4 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fa fa-calculator text-blue-600 mr-3"></i> 收益计算器
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 mb-2">投资金额（万元）</label>
+                                <input type="range" min="1000" max="50000" value="1000" step="1000" class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer" id="investmentAmount1">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-sm text-gray-500">1000万</span>
+                                    <span class="text-sm text-gray-500">5亿</span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span id="amountDisplay1" class="text-2xl font-bold text-blue-600">1000</span>
+                                    <span class="text-gray-600 ml-1">万元</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">投资期限（年）</label>
+                                <input type="range" min="1" max="20" value="5" class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer" id="investmentPeriod1">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-sm text-gray-500">1年</span>
+                                    <span class="text-sm text-gray-500">20年</span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span id="periodDisplay1" class="text-2xl font-bold text-blue-600">5</span>
+                                    <span class="text-gray-600 ml-1">年</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                                    <div class="text-gray-600 mb-1">预期总收益</div>
+                                    <div id="totalReturn1" class="text-3xl font-bold text-green-600">164.5万元</div>
+                                    <div class="text-gray-500 text-sm mt-1">基于5.24%年化收益率</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="calculateReturns1()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl hover:shadow-xl transition-all duration-300 font-medium">
+                            <i class="fa fa-refresh mr-2"></i> 重新计算收益
+                        </button>
+                    </div>
+
+                    <!-- 基础要素与资产配置 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                        <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-info-circle text-white"></i>
+                                </div>
+                                基础要素
+                            </h4>
+                            <ul class="space-y-4 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">管理人：</span>头部信托公司 + 专业家族办公室（联合管理）
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">起投金额：</span>1000万元（现金/保险金），定制版3000万元起
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">费用结构：</span>管理费0.6%-1.0%/年 + 托管费0.1%/年 + 交易费0.5%-1%
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">认购方式：</span>线下专属客户经理对接，需提供资产证明等文件
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 资产配置占比 -->
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-pie-chart text-white"></i>
+                                </div>
+                                资产配置占比
+                            </h4>
+                            <div class="h-[250px] relative">
+                                <canvas id="assetChart1"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底层资产 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-database text-white"></i>
+                            </div>
+                            底层资产运作细则
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-money text-blue-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">现金类家族信托（30%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">投资银行定期存款（年化2.5%-3.0%）、货币基金，每月计提收益</p>
+                                <div class="text-blue-600 text-sm font-medium">年化收益：2.8%</div>
+                            </div>
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-shield text-green-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">保险金信托（20%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">绑定终身寿险（保额≥500万），身故保险金自动进入信托</p>
+                                <div class="text-blue-600 text-sm font-medium">子女25岁起每年领取5%</div>
+                            </div>
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-line-chart text-purple-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">优质股权/股票（25%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">投资沪深300成分股/港股通高股息股票，单只持仓≤20%</p>
+                                <div class="text-blue-600 text-sm font-medium">年化收益：7.0%</div>
+                            </div>
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-globe text-red-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">海外资产+慈善信托（25%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">美国国债（年化3.5%-4.0%）、新加坡REITs（4%-5%）</p>
+                                <div class="text-blue-600 text-sm font-medium">慈善信托可抵扣个税</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 收益示例 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-bar-chart text-white"></i>
+                            </div>
+                            收益计算与分配示例（1000万认购）
+                        </h4>
+                        <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="gradient-bg text-white">
+                                        <th class="py-4 px-4 text-left font-semibold">资产类型</th>
+                                        <th class="py-4 px-4 text-left font-semibold">金额（万）</th>
+                                        <th class="py-4 px-4 text-left font-semibold">预期年化</th>
+                                        <th class="py-4 px-4 text-left font-semibold">年度收益（万）</th>
+                                        <th class="py-4 px-4 text-left font-semibold">分配规则</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">现金类信托</td>
+                                        <td class="py-4 px-4">300</td>
+                                        <td class="py-4 px-4">
+                                            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">2.8%</span>
+                                        </td>
+                                        <td class="py-4 px-4 font-medium">8.4</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">每年分配5万生活开支，剩余滚存</td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">保险金信托</td>
+                                        <td class="py-4 px-4">200</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">身故后保额500万，子女每年领25万</td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">优质股权</td>
+                                        <td class="py-4 px-4">250</td>
+                                        <td class="py-4 px-4">
+                                            <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">7.0%</span>
+                                        </td>
+                                        <td class="py-4 px-4 font-medium">17.5</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">每3年分配超额收益30%</td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">海外资产</td>
+                                        <td class="py-4 px-4">150</td>
+                                        <td class="py-4 px-4">
+                                            <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm">4.2%</span>
+                                        </td>
+                                        <td class="py-4 px-4 font-medium">6.3</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">全额滚存，对冲汇率波动</td>
+                                    </tr>
+                                    <tr class="gradient-bg text-white">
+                                        <td class="py-4 px-4 font-bold">年度综合收益</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4 font-bold text-yellow-300">5.24%</td>
+                                        <td class="py-4 px-4 font-bold">32.2</td>
+                                        <td class="py-4 px-4 text-white/90 text-sm">保险金收益未计入年度计算</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 操作流程与服务 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-tasks text-white"></i>
+                                </div>
+                                认购流程（30-45个工作日）
+                            </h4>
+                            <div class="relative">
+                                <div class="absolute left-5 top-0 h-full w-0.5 bg-blue-200"></div>
+                                <div class="space-y-8">
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.1s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full flex items-center justify-center mr-5 z-10">1</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">专属客户经理上门尽调</h5>
+                                            <p class="text-gray-600">了解家庭结构、资产状况、传承需求</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.2s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full flex items-center justify-center mr-5 z-10">2</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">法律团队制定信托合同</h5>
+                                            <p class="text-gray-600">明确受益人、分配规则、监察人</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.3s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full flex items-center justify-center mr-5 z-10">3</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">资产划转与过户</h5>
+                                            <p class="text-gray-600">现金存入信托托管账户，股权/不动产办理过户</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.4s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full flex items-center justify-center mr-5 z-10">4</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">信托成立与运作</h5>
+                                            <p class="text-gray-600">出具成立通知书，每月发送资产运作简报</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-headphones text-white"></i>
+                                </div>
+                                客户服务
+                            </h4>
+                            <div class="space-y-6">
+                                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-calendar-check-o text-blue-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">定期服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">季度资产报告、年度条款优化会，可调整受益人、分配比例</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-5 border border-green-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-graduation-cap text-green-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">专项服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">家族宪法起草、子女海外教育规划（对接藤校申请顾问）</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-xl p-5 border border-red-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-life-ring text-red-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">应急服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">突发债务风险时，启动"资产隔离应急响应"（24小时内协调律师介入）</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 行动按钮 -->
+                    <div class="mt-12 pt-8 border-t border-gray-200 text-center">
+                        <button onclick="scrollToConsult()" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-xl hover:shadow-2xl transition-all duration-300 text-lg font-medium hover:scale-105">
+                            <i class="fa fa-calendar mr-2"></i> 预约专属顾问咨询
+                        </button>
+                        <p class="text-gray-500 text-sm mt-4">仅限资产1亿以上超高净值客户，需进行资质审核</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 产品2：稳享增利 -->
+            <div id="product2" class="tab-content">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 overflow-hidden relative">
+                    <!-- 产品标签 -->
+                    <div class="absolute top-6 right-6 bg-gradient-to-r from-green-600 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium z-10 floating-badge">
+                        <i class="fa fa-shield mr-2"></i>资产1000万-1亿专属
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">稳享增利证券资管+保险信托组合</h3>
+                            <p class="text-blue-600 font-medium text-lg">高净值客群专属 · 稳健增值解决方案</p>
+                            <div class="flex items-center mt-4 space-x-4">
+                                <span class="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg"><i class="fa fa-shield text-blue-600 mr-2"></i> R2 中低风险</span>
+                                <span class="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg"><i class="fa fa-calendar text-blue-600 mr-2"></i> 资管无固定期限/保险终身</span>
+                                <span class="flex items-center text-green-600 bg-green-100 px-3 py-1.5 rounded-lg"><i class="fa fa-percent mr-2"></i> 预期年化 3.14%</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer text-center pulse-animation">
+                                <div class="text-2xl font-bold">100万元起</div>
+                                <div class="text-sm opacity-90">起投金额</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 收益计算器 -->
+                    <div class="mb-10 bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6 border border-green-200">
+                        <h4 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fa fa-calculator text-green-600 mr-3"></i> 收益计算器
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 mb-2">投资金额（万元）</label>
+                                <input type="range" min="100" max="10000" value="1000" step="100" class="w-full h-2 bg-green-200 rounded-lg appearance-none cursor-pointer" id="investmentAmount2">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-sm text-gray-500">100万</span>
+                                    <span class="text-sm text-gray-500">1亿</span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span id="amountDisplay2" class="text-2xl font-bold text-green-600">1000</span>
+                                    <span class="text-gray-600 ml-1">万元</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">投资期限（年）</label>
+                                <input type="range" min="1" max="15" value="5" class="w-full h-2 bg-green-200 rounded-lg appearance-none cursor-pointer" id="investmentPeriod2">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-sm text-gray-500">1年</span>
+                                    <span class="text-sm text-gray-500">15年</span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span id="periodDisplay2" class="text-2xl font-bold text-green-600">5</span>
+                                    <span class="text-gray-600 ml-1">年</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                                    <div class="text-gray-600 mb-1">预期总收益</div>
+                                    <div id="totalReturn2" class="text-3xl font-bold text-green-600">167.0万元</div>
+                                    <div class="text-gray-500 text-sm mt-1">基于3.14%年化收益率</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="calculateReturns2()" class="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 rounded-xl hover:shadow-xl transition-all duration-300 font-medium">
+                            <i class="fa fa-refresh mr-2"></i> 重新计算收益
+                        </button>
+                    </div>
+
+                    <!-- 基础要素与资产配置 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                        <div class="bg-gradient-to-br from-gray-50 to-green-50 rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-info-circle text-white"></i>
+                                </div>
+                                基础要素
+                            </h4>
+                            <ul class="space-y-4 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">管理人：</span>证券公司资管部 + 中型保险公司
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">起投金额：</span>100万元（资管80万+保险信托20万）
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">费用结构：</span>资管费0.2%-0.3%/年 + 保险费2-5万/年 + 服务费0.1%/年
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">认购方式：</span>银行私行渠道/证券公司APP，R2风险测评≥60分
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 资产配置占比 -->
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-pie-chart text-white"></i>
+                                </div>
+                                资产配置占比
+                            </h4>
+                            <div class="h-[250px] relative">
+                                <canvas id="assetChart2"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底层资产 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-database text-white"></i>
+                            </div>
+                            底层资产运作细则
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-bank text-blue-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">证券收益宝1号（40%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">投资保险资管协议存款（60%）、期货保证金存款（30%）、同业存单（10%）</p>
+                                <div class="text-green-600 text-sm font-medium">年化收益：2.25%</div>
+                                <div class="text-xs text-blue-600 mt-1">每周3次开放申赎，T+1到账</div>
+                            </div>
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-bar-chart text-purple-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">3个月滚动债基（35%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">投资国债（40%）、AAA级企业债（50%）、同业存单（10%）</p>
+                                <div class="text-green-600 text-sm font-medium">年化收益：3.3%</div>
+                                <div class="text-xs text-blue-600 mt-1">持有3个月解锁，提前赎回0.5%违约金</div>
+                            </div>
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-heart text-pink-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">小额保险金信托（25%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">绑定年金险（年缴2万，缴费10年），第5年起生存金逐年递增3%</p>
+                                <div class="text-green-600 text-sm font-medium">婚变不参与财产分割</div>
+                                <div class="text-xs text-blue-600 mt-1">资产隔离保障</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 收益示例 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-bar-chart text-white"></i>
+                            </div>
+                            收益计算与分配示例（1000万认购）
+                        </h4>
+                        <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="gradient-bg text-white">
+                                        <th class="py-4 px-4 text-left font-semibold">资产类型</th>
+                                        <th class="py-4 px-4 text-left font-semibold">金额（万）</th>
+                                        <th class="py-4 px-4 text-left font-semibold">预期年化</th>
+                                        <th class="py-4 px-4 text-left font-semibold">年度收益（万）</th>
+                                        <th class="py-4 px-4 text-left font-semibold">分配方式</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">收益宝1号</td>
+                                        <td class="py-4 px-4">400</td>
+                                        <td class="py-4 px-4">
+                                            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">2.25%</span>
+                                        </td>
+                                        <td class="py-4 px-4 font-medium">9.0</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">每月自动转入银行卡（7500元/月）</td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">3个月滚动债基</td>
+                                        <td class="py-4 px-4">350</td>
+                                        <td class="py-4 px-4">
+                                            <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">3.3%</span>
+                                        </td>
+                                        <td class="py-4 px-4 font-medium">11.55</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">每3个月结算，收益自动续投</td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">年金险（年缴）</td>
+                                        <td class="py-4 px-4">20</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">第5年领25万，逐年递增3%</td>
+                                    </tr>
+                                    <tr class="gradient-bg text-white">
+                                        <td class="py-4 px-4 font-bold">年度综合收益</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4 font-bold text-yellow-300">3.14%</td>
+                                        <td class="py-4 px-4 font-bold">20.55</td>
+                                        <td class="py-4 px-4 text-white/90 text-sm">前4年按此收益，第5年起叠加年金</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 操作流程与服务 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-tasks text-white"></i>
+                                </div>
+                                认购流程（7-10个工作日）
+                            </h4>
+                            <div class="relative">
+                                <div class="absolute left-5 top-0 h-full w-0.5 bg-green-200"></div>
+                                <div class="space-y-8">
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.1s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">1</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">完成风险测评与产品匹配</h5>
+                                            <p class="text-gray-600">银行私行经理协助完成R2风险测评（得分≥60分）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.2s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">2</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">签署相关协议</h5>
+                                            <p class="text-gray-600">线上签署资管合同（APP）+ 线下签署保险信托协议（网点）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.3s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">3</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">资金划转</h5>
+                                            <p class="text-gray-600">资管款转入证券托管账户，保费划至保险公司</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.4s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">4</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">产品生效</h5>
+                                            <p class="text-gray-600">接收生效短信，APP可查看资产明细</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-headphones text-white"></i>
+                                </div>
+                                投后服务
+                            </h4>
+                            <div class="space-y-6">
+                                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-exchange text-blue-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">流动性服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">重大疾病/意外可免违约金提前赎回（T+2到账）</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-5 border border-green-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-line-chart text-green-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">资产调整服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">每半年提供"配置建议报告"，可根据市场利率调整产品比例</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-5 border border-pink-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-file-text text-pink-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">保单服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">提醒保费缴纳、协助变更受益人（线上提交，3个工作日办结）</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 行动按钮 -->
+                    <div class="mt-12 pt-8 border-t border-gray-200 text-center">
+                        <button onclick="scrollToConsult()" class="bg-gradient-to-r from-green-600 to-blue-600 text-white px-10 py-4 rounded-xl hover:shadow-2xl transition-all duration-300 text-lg font-medium hover:scale-105">
+                            <i class="fa fa-calendar mr-2"></i> 预约专属顾问咨询
+                        </button>
+                        <p class="text-gray-500 text-sm mt-4">仅限资产1000万-1亿高净值客户</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 产品3：安心成长 -->
+            <div id="product3" class="tab-content">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 overflow-hidden relative">
+                    <!-- 产品标签 -->
+                    <div class="absolute top-6 right-6 bg-gradient-to-r from-orange-600 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium z-10 floating-badge">
+                        <i class="fa fa-smile-o mr-2"></i>资产100万-1000万专属
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">安心成长多元资产组合计划</h3>
+                            <p class="text-blue-600 font-medium text-lg">中产富裕客群专属 · 稳健成长解决方案</p>
+                            <div class="flex items-center mt-4 space-x-4">
+                                <span class="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg"><i class="fa fa-shield text-blue-600 mr-2"></i> R1-R2 低-中低风险</span>
+                                <span class="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg"><i class="fa fa-calendar text-blue-600 mr-2"></i> 货币无期限/定投≥5年/保险至60岁</span>
+                                <span class="flex items-center text-green-600 bg-green-100 px-3 py-1.5 rounded-lg"><i class="fa fa-percent mr-2"></i> 预期年化 3.5%</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <div class="bg-gradient-to-r from-orange-600 to-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer text-center pulse-animation">
+                                <div class="text-2xl font-bold">10万元起</div>
+                                <div class="text-sm opacity-90">起投金额</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 收益计算器 -->
+                    <div class="mb-10 bg-gradient-to-r from-orange-50 to-blue-50 rounded-2xl p-6 border border-orange-200">
+                        <h4 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fa fa-calculator text-orange-600 mr-3"></i> 收益计算器
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 mb-2">投资金额（万元）</label>
+                                <input type="range" min="10" max="1000" value="100" step="10" class="w-full h-2 bg-orange-200 rounded-lg appearance-none cursor-pointer" id="investmentAmount3">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-sm text-gray-500">10万</span>
+                                    <span class="text-sm text-gray-500">1000万</span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span id="amountDisplay3" class="text-2xl font-bold text-orange-600">100</span>
+                                    <span class="text-gray-600 ml-1">万元</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">投资期限（年）</label>
+                                <input type="range" min="1" max="10" value="5" class="w-full h-2 bg-orange-200 rounded-lg appearance-none cursor-pointer" id="investmentPeriod3">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-sm text-gray-500">1年</span>
+                                    <span class="text-sm text-gray-500">10年</span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span id="periodDisplay3" class="text-2xl font-bold text-orange-600">5</span>
+                                    <span class="text-gray-600 ml-1">年</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                                    <div class="text-gray-600 mb-1">预期总收益</div>
+                                    <div id="totalReturn3" class="text-3xl font-bold text-green-600">18.8万元</div>
+                                    <div class="text-gray-500 text-sm mt-1">基于3.5%年化收益率</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="calculateReturns3()" class="w-full bg-gradient-to-r from-orange-600 to-blue-600 text-white py-3 rounded-xl hover:shadow-xl transition-all duration-300 font-medium">
+                            <i class="fa fa-refresh mr-2"></i> 重新计算收益
+                        </button>
+                    </div>
+
+                    <!-- 基础要素与资产配置 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                        <div class="bg-gradient-to-br from-gray-50 to-orange-50 rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-info-circle text-white"></i>
+                                </div>
+                                基础要素
+                            </h4>
+                            <ul class="space-y-4 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">管理人：</span>基金公司 + 互联网保险公司
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">起投金额：</span>10万元起（货币1元起/定投100元起/保险1万起）
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">费用结构：</span>基金费0.2%-0.5%/年 + 保险费1-3万/年 + 服务费免费
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">认购方式：</span>支付宝/微信理财通/基金APP，风险测评≥50分
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 资产配置占比 -->
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-pie-chart text-white"></i>
+                                </div>
+                                资产配置占比
+                            </h4>
+                            <div class="h-[250px] relative">
+                                <canvas id="assetChart3"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底层资产 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-database text-white"></i>
+                            </div>
+                            底层资产运作细则
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-money text-blue-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">货币增强型产品（50%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">易方达天天增利B（7日年化2.3%）、南方现金增利A（2.1%）</p>
+                                <div class="text-orange-600 text-sm font-medium">年化收益：2.2%</div>
+                                <div class="text-xs text-blue-600 mt-1">按日计息、随存随取、自动还信用卡</div>
+                            </div>
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-line-chart text-purple-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">宽基指数基金定投（30%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">沪深300指数基金（跟踪误差≤0.1%），智能定投策略</p>
+                                <div class="text-orange-600 text-sm font-medium">年化收益：5.0%</div>
+                                <div class="text-xs text-blue-600 mt-1">高估值暂停、低估值加仓20%</div>
+                            </div>
+                            <div class="asset-card bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg">
+                                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fa fa-heartbeat text-green-600 text-xl"></i>
+                                </div>
+                                <h5 class="font-bold text-gray-800 mb-2">小额年金险+医疗险（20%）</h5>
+                                <p class="text-sm text-gray-600 mb-3">年金险60岁起每年领固定金额，医疗险年度保额400万</p>
+                                <div class="text-orange-600 text-sm font-medium">养老+医疗保障</div>
+                                <div class="text-xs text-blue-600 mt-1">缴费期15年，保至80岁</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 收益示例 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-bar-chart text-white"></i>
+                            </div>
+                            收益计算与分配示例（100万分3年投入）
+                        </h4>
+                        <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="gradient-bg text-white">
+                                        <th class="py-4 px-4 text-left font-semibold">资产类型</th>
+                                        <th class="py-4 px-4 text-left font-semibold">金额（万）</th>
+                                        <th class="py-4 px-4 text-left font-semibold">预期年化</th>
+                                        <th class="py-4 px-4 text-left font-semibold">年度收益</th>
+                                        <th class="py-4 px-4 text-left font-semibold">分配方式</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">货币增强型产品</td>
+                                        <td class="py-4 px-4">50</td>
+                                        <td class="py-4 px-4">
+                                            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">2.2%</span>
+                                        </td>
+                                        <td class="py-4 px-4 font-medium">11000元</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">随存随取，可还信用卡/日常消费</td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">宽基指数定投</td>
+                                        <td class="py-4 px-4">30</td>
+                                        <td class="py-4 px-4">
+                                            <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">5.0%</span>
+                                        </td>
+                                        <td class="py-4 px-4 font-medium">15000元</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">5年后可赎回，补充子女教育金</td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-blue-50/30 transition-colors">
+                                        <td class="py-4 px-4 font-medium">小额年金险（年缴）</td>
+                                        <td class="py-4 px-4">20</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4 text-gray-600 text-sm">60岁起每年领42万，医疗险报销住院费用</td>
+                                    </tr>
+                                    <tr class="gradient-bg text-white">
+                                        <td class="py-4 px-4 font-bold">年度综合收益</td>
+                                        <td class="py-4 px-4">-</td>
+                                        <td class="py-4 px-4 font-bold text-yellow-300">3.5%</td>
+                                        <td class="py-4 px-4 font-bold">26000元</td>
+                                        <td class="py-4 px-4 text-white/90 text-sm">第3年起产生稳定收益</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 操作流程与服务 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-tasks text-white"></i>
+                                </div>
+                                认购流程（1-3个工作日）
+                            </h4>
+                            <div class="relative">
+                                <div class="absolute left-5 top-0 h-full w-0.5 bg-orange-200"></div>
+                                <div class="space-y-8">
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.1s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-orange-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">1</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">在线风险测评</h5>
+                                            <p class="text-gray-600">支付宝/微信搜索"安心成长组合"，完成R1-R2风险测评（≥50分）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.2s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-orange-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">2</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">选择投入方案</h5>
+                                            <p class="text-gray-600">选择投入金额与期限，系统自动拆分货币增强、定投、保险比例</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.3s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-orange-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">3</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">线上签署与支付</h5>
+                                            <p class="text-gray-600">线上签署协议（基金合同+保险条款），绑定银行卡完成首期扣款</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start stagger-item" style="animation-delay: 0.4s">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-orange-600 to-blue-600 text-white rounded-full flex items-center justify-center mr-5 z-10">4</div>
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">产品生效</h5>
+                                            <p class="text-gray-600">接收生效通知（短信+APP推送），可在"资产明细"页面查看实时收益</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-6 flex items-center">
+                                <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fa fa-headphones text-white"></i>
+                                </div>
+                                投后服务
+                            </h4>
+                            <div class="space-y-6">
+                                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-robot text-blue-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">智能管理</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">指数定投触发"高估值暂停/低估值加仓"时，自动推送调整提醒</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-5 border border-green-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-medkit text-green-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">保障服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">医疗险线上理赔（最快3个工作日到账），年金险缴费提醒与自动代扣</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-5 border border-orange-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-stethoscope text-orange-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">免费诊断</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">每年提供1次"家庭财富健康报告"，结合收入变化推荐调整资产比例</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-5 border border-purple-200">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fa fa-graduation-cap text-purple-600 text-xl mr-3"></i>
+                                        <h5 class="font-bold text-gray-800">学习服务</h5>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">定期推送"理财小课堂"，帮助提升金融知识</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 行动按钮 -->
+                    <div class="mt-12 pt-8 border-t border-gray-200 text-center">
+                        <button onclick="scrollToConsult()" class="bg-gradient-to-r from-orange-600 to-blue-600 text-white px-10 py-4 rounded-xl hover:shadow-2xl transition-all duration-300 text-lg font-medium hover:scale-105">
+                            <i class="fa fa-calendar mr-2"></i> 预约专属顾问咨询
+                        </button>
+                        <p class="text-gray-500 text-sm mt-4">面向资产100万-1000万中产富裕客群，无需资产证明</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 咨询预约区 -->
+    <section id="consult" class="py-16 gradient-bg text-white relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20">
+            <div class="absolute top-10 left-10 w-64 h-64 bg-white rounded-full"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-white rounded-full"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">预约专属财富顾问</h2>
+                <p class="text-blue-100 text-lg">填写以下信息，我们将在1个工作日内与您联系，为您提供定制化资产配置方案</p>
+            </div>
+            <div class="max-w-2xl mx-auto glass-effect rounded-2xl shadow-2xl p-8">
+                <form id="consultForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-white mb-2 font-medium">姓名</label>
+                            <input type="text" id="name" class="w-full px-5 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/50" placeholder="请输入您的姓名" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-white mb-2 font-medium">手机号码</label>
+                            <input type="tel" id="phone" class="w-full px-5 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/50" placeholder="请输入您的手机号码" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="asset" class="block text-white mb-2 font-medium">资产规模</label>
+                        <select id="asset" class="w-full px-5 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 text-white" onchange="updateProductRecommendation()">
+                            <option value="">请选择您的资产规模</option>
+                            <option value="mid">100万-1000万（中产富裕）</option>
+                            <option value="high">1000万-1亿（高净值）</option>
+                            <option value="ultra">1亿以上（超高净值）</option>
+                        </select>
+                    </div>
+                    <div id="productRecommendation" class="hidden bg-white/10 rounded-xl p-5 border border-white/20">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-lightbulb-o text-yellow-300 text-xl mr-3"></i>
+                            <h4 class="font-bold text-white">为您推荐</h4>
+                        </div>
+                        <p id="recommendationText" class="text-white/90"></p>
+                    </div>
+                    <div>
+                        <label for="demand" class="block text-white mb-2 font-medium">理财需求</label>
+                        <div class="mb-4">
+                            <div class="flex flex-wrap gap-3">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="demand" value="retirement" class="hidden peer">
+                                    <span class="px-4 py-2 bg-white/10 rounded-lg text-white peer-checked:bg-white peer-checked:text-blue-600 cursor-pointer transition-all">养老规划</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="demand" value="education" class="hidden peer">
+                                    <span class="px-4 py-2 bg-white/10 rounded-lg text-white peer-checked:bg-white peer-checked:text-blue-600 cursor-pointer transition-all">子女教育</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="demand" value="inheritance" class="hidden peer">
+                                    <span class="px-4 py-2 bg-white/10 rounded-lg text-white peer-checked:bg-white peer-checked:text-blue-600 cursor-pointer transition-all">资产传承</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="demand" value="tax" class="hidden peer">
+                                    <span class="px-4 py-2 bg-white/10 rounded-lg text-white peer-checked:bg-white peer-checked:text-blue-600 cursor-pointer transition-all">税务规划</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="demand" value="risk" class="hidden peer">
+                                    <span class="px-4 py-2 bg-white/10 rounded-lg text-white peer-checked:bg-white peer-checked:text-blue-600 cursor-pointer transition-all">风险隔离</span>
+                                </label>
+                            </div>
+                        </div>
+                        <textarea id="demandDetails" rows="3" class="w-full px-5 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/50" placeholder="请简要描述您的其他理财需求..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-white text-blue-600 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 font-bold text-lg hover:scale-[1.02] shadow-lg">
+                        <i class="fa fa-paper-plane mr-2"></i> 提交预约
+                    </button>
+                    <p class="text-center text-white/70 text-sm mt-4">提交即表示同意《隐私政策》和《服务条款》</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all duration-300 opacity-0 pointer-events-none z-40 flex items-center justify-center">
+        <i class="fa fa-chevron-up"></i>
+    </button>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="bg-blue-600 rounded-lg p-2">
+                            <i class="fa fa-line-chart text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">智享财富</h3>
+                            <p class="text-gray-400 text-sm">专业财富管理解决方案</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">为不同资产规模客群提供专业、定制化的财富管理解决方案，助力财富稳健增长与传承。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fa fa-qq"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 pb-2 border-b border-gray-800">产品中心</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#product1" class="text-gray-400 hover:text-blue-400 transition flex items-center"><i class="fa fa-chevron-right text-xs mr-2"></i>传世稳盈家族信托</a></li>
+                        <li><a href="#product2" class="text-gray-400 hover:text-blue-400 transition flex items-center"><i class="fa fa-chevron-right text-xs mr-2"></i>稳享增利资管组合</a></li>
+                        <li><a href="#product3" class="text-gray-400 hover:text-blue-400 transition flex items-center"><i class="fa fa-chevron-right text-xs mr-2"></i>安心成长中产组合</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 pb-2 border-b border-gray-800">服务支持</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition flex items-center"><i class="fa fa-chevron-right text-xs mr-2"></i>常见问题</a></li>
+                        <li><a href="#consult" class="text-gray-400 hover:text-blue-400 transition flex items-center"><i class="fa fa-chevron-right text-xs mr-2"></i>预约咨询</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition flex items-center"><i class="fa fa-chevron-right text-xs mr-2"></i>隐私政策</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition flex items-center"><i class="fa fa-chevron-right text-xs mr-2"></i>服务条款</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 pb-2 border-b border-gray-800">联系我们</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa fa-phone text-blue-400 mt-1 mr-3"></i>
+                            <div>
+                                <div class="font-medium">400-888-9999</div>
+                                <div class="text-sm text-gray-400">周一至周五 9:00-18:00</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-envelope text-blue-400 mt-1 mr-3"></i>
+                            <div>
+                                <div class="font-medium">service@zhixiang财富.com</div>
+                                <div class="text-sm text-gray-400">24小时内回复</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker text-blue-400 mt-1 mr-3"></i>
+                            <div>
+                                <div class="font-medium">北京市朝阳区金融大街88号</div>
+                                <div class="text-sm text-gray-400">智享财富大厦 18层</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2025 智享财富管理有限公司 版权所有 京ICP备12345678号</p>
+                <p class="mt-2">市场有风险，投资需谨慎。产品过往业绩不代表未来表现</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 标签页切换
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-pill').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            // 滚动到详情区域
+            document.getElementById('details').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 收益计算器函数 - 产品1
+        function calculateReturns1() {
+            const amount = parseInt(document.getElementById('investmentAmount1').value);
+            const period = parseInt(document.getElementById('investmentPeriod1').value);
+            const annualRate = 5.24 / 100;
+            
+            // 复利计算
+            const totalReturn = amount * Math.pow(1 + annualRate, period) - amount;
+            
+            document.getElementById('amountDisplay1').textContent = amount;
+            document.getElementById('periodDisplay1').textContent = period;
+            document.getElementById('totalReturn1').textContent = totalReturn.toFixed(1) + '万元';
+            
+            // 添加动画效果
+            const element = document.getElementById('totalReturn1');
+            element.classList.add('count-up');
+            setTimeout(() => {
+                element.classList.remove('count-up');
+            }, 500);
+        }
+
+        // 收益计算器函数 - 产品2
+        function calculateReturns2() {
+            const amount = parseInt(document.getElementById('investmentAmount2').value);
+            const period = parseInt(document.getElementById('investmentPeriod2').value);
+            const annualRate = 3.14 / 100;
+            
+            // 复利计算
+            const totalReturn = amount * Math.pow(1 + annualRate, period) - amount;
+            
+            document.getElementById('amountDisplay2').textContent = amount;
+            document.getElementById('periodDisplay2').textContent = period;
+            document.getElementById('totalReturn2').textContent = totalReturn.toFixed(1) + '万元';
+            
+            // 添加动画效果
+            const element = document.getElementById('totalReturn2');
+            element.classList.add('count-up');
+            setTimeout(() => {
+                element.classList.remove('count-up');
+            }, 500);
+        }
+
+        // 收益计算器函数 - 产品3
+        function calculateReturns3() {
+            const amount = parseInt(document.getElementById('investmentAmount3').value);
+            const period = parseInt(document.getElementById('investmentPeriod3').value);
+            const annualRate = 3.5 / 100;
+            
+            // 复利计算
+            const totalReturn = amount * Math.pow(1 + annualRate, period) - amount;
+            
+            document.getElementById('amountDisplay3').textContent = amount;
+            document.getElementById('periodDisplay3').textContent = period;
+            
+            // 格式化显示
+            document.getElementById('totalReturn3').textContent = totalReturn.toFixed(2) + '万元';
+            
+            // 添加动画效果
+            const element = document.getElementById('totalReturn3');
+            element.classList.add('count-up');
+            setTimeout(() => {
+                element.classList.remove('count-up');
+            }, 500);
+        }
+
+        // 更新产品推荐
+        function updateProductRecommendation() {
+            const assetSelect = document.getElementById('asset');
+            const recommendationDiv = document.getElementById('productRecommendation');
+            const recommendationText = document.getElementById('recommendationText');
+            
+            if (assetSelect.value) {
+                recommendationDiv.classList.remove('hidden');
+                
+                switch(assetSelect.value) {
+                    case 'mid':
+                        recommendationText.textContent = '基于您的资产规模（100万-1000万），我们推荐【安心成长中产财富组合】。该产品起投门槛适中（10万元起），风险等级R1-R2，适合稳健成长需求，包含智能定投和养老保障。';
+                        break;
+                    case 'high':
+                        recommendationText.textContent = '基于您的资产规模（1000万-1亿），我们推荐【稳享增利资管+保险信托组合】。该产品起投100万元，风险等级R2，提供稳健收益、灵活流动性和婚变资产隔离功能。';
+                        break;
+                    case 'ultra':
+                        recommendationText.textContent = '基于您的资产规模（1亿以上），我们推荐【传世稳盈家族信托组合】。该产品起投1000万元，提供家族传承、资产隔离、慈善规划等综合服务，适合超高净值客户的长期财富规划需求。';
+                        break;
+                }
+            } else {
+                recommendationDiv.classList.add('hidden');
+            }
+        }
+
+        // 滚动到咨询区域
+        function scrollToConsult() {
+            document.getElementById('consult').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 回到顶部功能
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('opacity-0', 'pointer-events-none');
+                backToTopButton.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'pointer-events-auto');
+                backToTopButton.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 表单提交
+        document.getElementById('consultForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 模拟表单提交
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (name && phone) {
+                // 显示成功提示
+                const button = this.querySelector('button[type="submit"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fa fa-check mr-2"></i> 预约成功！';
+                button.classList.remove('bg-white');
+                button.classList.add('bg-green-500');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('bg-green-500');
+                    button.classList.add('bg-white');
+                }, 3000);
+                
+                // 重置表单
+                this.reset();
+                document.getElementById('productRecommendation').classList.add('hidden');
+            } else {
+                alert('请填写必填信息');
+            }
+        });
+
+        // 初始化收益计算器
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化所有计算器
+            calculateReturns1();
+            calculateReturns2();
+            calculateReturns3();
+            
+            // 绑定滑块事件
+            document.getElementById('investmentAmount1').addEventListener('input', calculateReturns1);
+            document.getElementById('investmentPeriod1').addEventListener('input', calculateReturns1);
+            
+            document.getElementById('investmentAmount2').addEventListener('input', calculateReturns2);
+            document.getElementById('investmentPeriod2').addEventListener('input', calculateReturns2);
+            
+            document.getElementById('investmentAmount3').addEventListener('input', calculateReturns3);
+            document.getElementById('investmentPeriod3').addEventListener('input', calculateReturns3);
+            
+            // 资产配置图表 - 产品1
+            const ctx1 = document.getElementById('assetChart1').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['现金类信托', '保险金信托', '优质股权', '海外资产', '慈善信托'],
+                    datasets: [{
+                        data: [30, 20, 25, 15, 10],
+                        backgroundColor: ['#165DFF', '#36CFC9', '#722ED1', '#FF7D00', '#F53F3F'],
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: { size: 11 },
+                                color: '#333'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            
+            // 资产配置图表 - 产品2
+            const ctx2 = document.getElementById('assetChart2').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['证券收益宝1号', '3个月滚动债基', '小额保险金信托'],
+                    datasets: [{
+                        data: [40, 35, 25],
+                        backgroundColor: ['#165DFF', '#36CFC9', '#722ED1'],
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: { size: 11 },
+                                color: '#333'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            
+            // 资产配置图表 - 产品3
+            const ctx3 = document.getElementById('assetChart3').getContext('2d');
+            new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: ['货币增强型产品', '宽基指数定投', '小额年金险+医疗险'],
+                    datasets: [{
+                        data: [50, 30, 20],
+                        backgroundColor: ['#165DFF', '#36CFC9', '#722ED1'],
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: { size: 11 },
+                                color: '#333'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            
+            // 初始化导航点击事件
+            document.querySelectorAll('.nav-pill').forEach(button => {
+                button.addEventListener('click', () => {
+                    switchTab(button.getAttribute('data-tab'));
+                });
+            });
+            
+            // 初始化复选框交互
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const span = this.nextElementSibling;
+                    if (this.checked) {
+                        span.classList.add('bg-white', 'text-blue-600');
+                        span.classList.remove('bg-white/10', 'text-white');
+                    } else {
+                        span.classList.remove('bg-white', 'text-blue-600');
+                        span.classList.add('bg-white/10', 'text-white');
+                    }
+                });
+            });
+            
+            // 初始化滚动动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeIn');
+                    }
+                });
+            }, observerOptions);
+            
+            // 观察所有需要动画的元素
+            document.querySelectorAll('.stagger-item').forEach(el => observer.observe(el));
+        });
+
+        // 添加键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            // Alt+1/2/3 切换产品
+            if (e.altKey && e.key === '1') {
+                e.preventDefault();
+                switchTab('product1');
+            } else if (e.altKey && e.key === '2') {
+                e.preventDefault();
+                switchTab('product2');
+            } else if (e.altKey && e.key === '3') {
+                e.preventDefault();
+                switchTab('product3');
+            }
+        });
+    </script>
+</body>
+</html>
